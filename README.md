@@ -146,5 +146,17 @@ The source code contains the case configurations, observables, functional constr
 Reproduction of the reported results requires preserving the corresponding configurations and evaluation assumptions.
 
 ---
+## Citation and Archived Release
 
+QSMEF v1.0.0 is permanently archived on Zenodo to support reproducibility and scientific citation.
+
+**Version-specific DOI (v1.0.0):** https://doi.org/10.5281/zenodo.23325320
+
+**Concept DOI (all versions):** https://doi.org/10.5281/zenodo.23325319
+
+**Suggested citation:**
+
+Pezzini, M. C. (2026). *QSMEF v1.0.0 — Quantum Software Engineering Module Evaluation Framework: Validator and Reproducible Case Studies* (Version 1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23325320
+
+The version-specific DOI identifies the exact archived software release used for the reported experiments. The concept DOI provides a persistent reference to the software across future versions.
 **QSMEF — Quantum Software Engineering Module Evaluation Framework**
