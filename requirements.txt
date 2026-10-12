@@ -1,0 +1,8 @@
+# QSMEF validator v1.0 — Python dependencies
+# Versions recorded from the verification environment.
+# IPython supports rich table display in notebook environments.
+numpy==2.3.5
+pandas==2.2.3
+scipy==1.17.0
+matplotlib==3.10.8
+ipython==9.14.0
