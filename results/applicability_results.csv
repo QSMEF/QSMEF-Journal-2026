@@ -1,6 +1,0 @@
-case_key,case_name,players,coalitions,failed_functional_coalitions,failed_semantic_coalitions,verdict,reason
-maxcut,QAOA-MaxCut C6,4,16,0,0,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied."
-h2,TwoLocal-H2,5,32,25,25,NOT APPLICABLE UNDER THE DECLARED SCOPE,"Functional constraints are not satisfied in 25 coalition(s). Therefore, the declared functional scope is not satisfied."
-skw,SKW hypercube,3,8,0,0,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied."
-qpe,QPE-Shor,7,128,0,92,NOT APPLICABLE UNDER THE DECLARED SCOPE,Semantic contract criteria do not hold for every coalition; the common functional interpretation required by the declared scope is therefore not preserved.
-partitioning,Graph Partitioning (Min Bisection),2,4,0,0,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied."
