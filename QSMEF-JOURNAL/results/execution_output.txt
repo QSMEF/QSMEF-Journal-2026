@@ -1,0 +1,443 @@
+QSMEF computational implementation — full execution
+Python: 3.13.5
+numpy: 2.3.5
+scipy: 1.17.0
+pandas: 2.2.3
+matplotlib: 3.10.8
+ipython: 9.14.0
+
+
+Case configuration: QAOA-MaxCut
+------------------------------------------------------------
+Graph: C6
+  C6 = cycle graph with 6 vertices and 6 edges.
+Number of qubits: 6
+  Each graph vertex is represented by a qubit.
+QAOA depth: p = 2
+  p = number of QAOA cost-mixer layers.
+
+QAOA parameters:
+  gamma1 = 0.6446548125  -> cost operator C1 parameter
+  beta1  = 0.3223274063  -> mixer operator B1 parameter
+  gamma2 = 1.2484689205  -> cost operator C2 parameter
+  beta2  = 0.9261415143  -> mixer operator B2 parameter
+
+Functional blocks / QSMEF players:
+  C1 = first cost operation, exp(-i gamma1 H_C)
+  B1 = first mixer operation, exp(-i beta1 sum X)
+  C2 = second cost operation, exp(-i gamma2 H_C)
+  B2 = second mixer operation, exp(-i beta2 sum X)
+
+Physical order:
+  C1 -> B1 -> C2 -> B2
+
+Observable:
+  H_C = sum of Z_j Z_(j+1); H_cut is auxiliary
+------------------------------------------------------------
+
+TwoLocal-H2 variational optimization
+Initial energy: -0.2544709999999998
+Optimized energy: -1.8510456784448595
+Theta parameters:
+[ 1.92593091e-08  5.36268108e-09  2.84628123e-09 -7.76476890e-08
+  7.28866431e-01  7.28866500e-01 -7.28866572e-01 -7.28866754e-01
+ -1.94740113e-08 -1.96111676e-08 -4.44577794e-08 -8.62984536e-08]
+
+Case configuration: TwoLocal-H2
+-----------------------------------------------------------------
+Physical system: H2
+  H2 = neutral hydrogen molecule with 2 electrons.
+Number of qubits: 4
+  The 4 qubits represent 4 fermionic modes under Jordan-Wigner encoding.
+Initial state:
+  |psi0> = |1100>
+  Represents exactly 2 electrons occupying two modes.
+
+TwoLocal variational architecture:
+  R0 -> E0 -> R1 -> E1 -> R2
+  R0, R1, R2 = rotation layers.
+  E0, E1 = all-to-all CZ entangling layers.
+
+Variational parameters:
+  theta = (theta0, ..., theta11)
+  There are 12 Ry gate angles.
+  Distribution:
+    R0 <- theta0, theta1, theta2, theta3
+    R1 <- theta4, theta5, theta6, theta7
+    R2 <- theta8, theta9, theta10, theta11
+
+Optimization:
+  Method: BFGS
+  Objective: minimize <psi(theta)| H_H2 |psi(theta)>
+  The optimized theta parameters fix the specific R0, R1, and R2 operations.
+
+Hamiltonian:
+  H_H2 = electronic Hamiltonian of H2 in Jordan-Wigner encoding.
+  It is used as the case observable.
+
+Propiedad funcional evaluada:
+  Expectation of H_H2 = electronic energy.
+
+Functional blocks / QSMEF players:
+  R0 = first rotation layer
+  E0 = primera capa de entrelazamiento
+  R1 = second rotation layer
+  E1 = segunda capa de entrelazamiento
+  R2 = third rotation layer
+
+Physical constraint:
+  P2 = projector onto the exactly-two-electron sector.
+  For every coalition C, the following must hold:
+  Tr(P2 rho_C) >= 1 - epsilon
+
+Semantic contract:
+  Electronic energy is compared only across configurations
+  that remain in the same physical two-electron sector.
+-----------------------------------------------------------------
+
+Case configuration: SKW - Hypercube
+------------------------------------------------------------------------
+n = 8
+N = 256
+Marked vertex: 0
+Evaluation time t = 19
+gamma = 1.0
+
+State space:
+  Coin space dimension: 8
+  Position space dimension: 256
+  Total dimension: 2048 = n * N
+
+State preparation:
+  The initial state is a uniform superposition.
+  19 complete SKW steps O -> G -> S are executed.
+  QSMEF receives the state psi_19 as the initial state of the game.
+
+QSMEF players:
+  {O, G, S}
+
+Sequence evaluated by QSMEF:
+  O -> G -> S
+  The schedule contains 3 operations.
+  Each coalition is applied once to psi_t.
+
+Energy-like observable:
+  H = I_C ⊗ (-gamma A_P - |w><w|)
+
+Characteristic game:
+  v_t(C) = M_H(U_C psi_t) - M_H(psi_t)
+
+QSMEF coalitions:
+  {}, {O}, {G}, {S}, {O,G}, {O,S}, {G,S}, {O,G,S}
+------------------------------------------------------------------------
+QPE/Shor: N=21, a=2, counting_qubits=5, work_qubits=5; players=['B0', 'B1', 'B2_0', 'B2_1', 'B2_2', 'B2_3', 'B2_4']
+Observable window: [5, 6, 10, 11, 16, 21, 22, 26, 27]; successful period-recovery outcomes: [5, 27]
+
+Case configuration: Graph Partitioning (Min Bisection)
+------------------------------------------------------------------------
+n = 6 (number of graph vertices)
+Graph: cycle C_6 with 6 edges
+Fixed cardinality: |V0| = 3
+Hilbert space dimension: 64
+Initial state: uniform superposition of states with Hamming weight = 3
+Number of initial states: 20
+
+Physical invariant:
+  Peso de Hamming = 3
+
+Projector:
+  P_half = sum of projectors onto states with HW = n/2
+
+QSMEF players:
+  C_fase = phase operator (diagonal)
+  M_XY   = XY ring mixer (preserves Hamming weight)
+
+Observable:
+  H_cost = number of cut edges
+------------------------------------------------------------------------
+
+========================================================================================
+CASE: QAOA-MaxCut C6
+========================================================================================
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: QAOA-MaxCut C6 p=2
+Property: Expectation of H_C = sum of Z_j Z_(j+1); minimization
+Representation: statevector; dimension: 64
+Players: 4; fixed operations: 0
+Execution steps: 4; coalitions: 16
+Baseline: 0.000000000000
+RESULT: APPLICABLE
+REASON: Technical conditions, functional constraints, and all semantic contract invariants are satisfied.
+
+
+----------------------------------------------------------------------------
+SHAPLEY CONTRIBUTIONS
+----------------------------------------------------------------------------
+v(B) = -3.999999708727
+Σ phi_i = -3.999999708727
+Efficiency residual = 0.000e+00
+Efficiency: OK
+
+========================================================================================
+CASE: TwoLocal-H2
+========================================================================================
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: TwoLocal-H2 4 qubits
+Property: Electronic energy of H2 in Jordan-Wigner encoding
+Representation: statevector; dimension: 16
+Players: 5; fixed operations: 0
+Execution steps: 5; coalitions: 32
+Baseline: -1.830461000000
+RESULT: NOT APPLICABLE UNDER THE DECLARED SCOPE
+REASON: Functional constraints are not satisfied in 25 coalition(s). Therefore, the declared functional scope is not satisfied.
+
+Shapley contributions are not computed because the configuration does not meet the declared applicability conditions.
+
+========================================================================================
+CASE: SKW hypercube
+========================================================================================
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: SKW hypercube n=8, t=19
+Property: Change in the expectation of the energy observable at the functional step evaluated from psi_19
+Representation: statevector; dimension: 2048
+Players: 3; fixed operations: 0
+Execution steps: 3; coalitions: 8
+Baseline: -1.420427511289
+RESULT: APPLICABLE
+REASON: Technical conditions, functional constraints, and all semantic contract invariants are satisfied.
+
+
+----------------------------------------------------------------------------
+SHAPLEY CONTRIBUTIONS
+----------------------------------------------------------------------------
+v(B) = -0.221999111475
+Σ phi_i = -0.221999111475
+Efficiency residual = 2.776e-17
+Efficiency: OK
+
+========================================================================================
+CASE: QPE-Shor
+========================================================================================
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: QPE-Shor N=21, a=2, m=5
+Property: Probability of a fixed counting-outcome window
+Representation: statevector; dimension: 1024
+Players: 7; fixed operations: 1
+Execution steps: 8; coalitions: 128
+Baseline: 0.281250000000
+RESULT: NOT APPLICABLE UNDER THE DECLARED SCOPE
+REASON: Semantic contract criteria do not hold for every coalition; the common functional interpretation required by the declared scope is therefore not preserved.
+
+Shapley contributions are not computed because the configuration does not meet the declared applicability conditions.
+
+========================================================================================
+CASE: Graph Partitioning (Min Bisection)
+========================================================================================
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: Graph Partitioning (Min Bisection) n=6
+Property: Expected number de aristas cortadas
+Representation: statevector; dimension: 64
+Players: 2; fixed operations: 0
+Execution steps: 2; coalitions: 4
+Baseline: 3.600000000000
+RESULT: APPLICABLE
+REASON: Technical conditions, functional constraints, and all semantic contract invariants are satisfied.
+
+
+----------------------------------------------------------------------------
+SHAPLEY CONTRIBUTIONS
+----------------------------------------------------------------------------
+v(B) = -0.046261897748
+Σ phi_i = -0.046261897748
+Efficiency residual = 0.000e+00
+Efficiency: OK
+
+========================================================================================
+QSMEF FINAL SUMMARY
+========================================================================================
+                                 Case  ...                                            Shapley
+0                      QAOA-MaxCut C6  ...  C1: -1.583908 | B1: -0.416092 | C2: -0.416092 ...
+1                         TwoLocal-H2  ...                                       Not computed
+2                       SKW hypercube  ...           O: -0.253055 | G: 0.015528 | S: 0.015528
+3                            QPE-Shor  ...                                       Not computed
+4  Graph Partitioning (Min Bisection)  ...                 C_fase: -0.519224 | M_XY: 0.472962
+
+[5 rows x 8 columns]
+
+Case configuration: SKW - Hypercube
+------------------------------------------------------------------------
+n = 8
+N = 256
+Marked vertex: 0
+Evaluation time t = 19
+gamma = 1.0
+
+State space:
+  Coin space dimension: 8
+  Position space dimension: 256
+  Total dimension: 2048 = n * N
+
+State preparation:
+  The initial state is a uniform superposition.
+  19 complete SKW steps O -> G -> S are executed.
+  QSMEF receives the state psi_19 as the initial state of the game.
+
+QSMEF players:
+  {O, G, S}
+
+Sequence evaluated by QSMEF:
+  O -> G -> S
+  The schedule contains 3 operations.
+  Each coalition is applied once to psi_t.
+
+Energy-like observable:
+  H = I_C ⊗ (-gamma A_P - |w><w|)
+
+Characteristic game:
+  v_t(C) = M_H(U_C psi_t) - M_H(psi_t)
+
+QSMEF coalitions:
+  {}, {O}, {G}, {S}, {O,G}, {O,S}, {G,S}, {O,G,S}
+------------------------------------------------------------------------
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: Modified SKW - full evolution 0.70π
+Property: Change in the expectation of the energy observable at the functional step evaluated from psi_19
+Representation: statevector; dimension: 2048
+Players: 3; fixed operations: 0
+Execution steps: 3; coalitions: 8
+Baseline: -7.548968986982
+RESULT: APPLICABLE
+REASON: Technical conditions, functional constraints, and all semantic contract invariants are satisfied.
+
+
+----------------------------------------------------------------------------
+SHAPLEY CONTRIBUTIONS
+----------------------------------------------------------------------------
+v(B) = 0.121595062752
+Σ phi_i = 0.121595062752
+Efficiency residual = 1.388e-17
+Efficiency: OK
+
+Case configuration: SKW - Hypercube
+------------------------------------------------------------------------
+n = 8
+N = 256
+Marked vertex: 0
+Evaluation time t = 19
+gamma = 1.0
+
+State space:
+  Coin space dimension: 8
+  Position space dimension: 256
+  Total dimension: 2048 = n * N
+
+State preparation:
+  The initial state is a uniform superposition.
+  19 complete SKW steps O -> G -> S are executed.
+  QSMEF receives the state psi_19 as the initial state of the game.
+
+QSMEF players:
+  {O, G, S}
+
+Sequence evaluated by QSMEF:
+  O -> G -> S
+  The schedule contains 3 operations.
+  Each coalition is applied once to psi_t.
+
+Energy-like observable:
+  H = I_C ⊗ (-gamma A_P - |w><w|)
+
+Characteristic game:
+  v_t(C) = M_H(U_C psi_t) - M_H(psi_t)
+
+QSMEF coalitions:
+  {}, {O}, {G}, {S}, {O,G}, {O,S}, {G,S}, {O,G,S}
+------------------------------------------------------------------------
+
+Case configuration: SKW - Hypercube
+------------------------------------------------------------------------
+n = 8
+N = 256
+Marked vertex: 0
+Evaluation time t = 19
+gamma = 1.0
+
+State space:
+  Coin space dimension: 8
+  Position space dimension: 256
+  Total dimension: 2048 = n * N
+
+State preparation:
+  The initial state is a uniform superposition.
+  19 complete SKW steps O -> G -> S are executed.
+  QSMEF receives the state psi_19 as the initial state of the game.
+
+QSMEF players:
+  {O, G, S}
+
+Sequence evaluated by QSMEF:
+  O -> G -> S
+  The schedule contains 3 operations.
+  Each coalition is applied once to psi_t.
+
+Energy-like observable:
+  H = I_C ⊗ (-gamma A_P - |w><w|)
+
+Characteristic game:
+  v_t(C) = M_H(U_C psi_t) - M_H(psi_t)
+
+QSMEF coalitions:
+  {}, {O}, {G}, {S}, {O,G}, {O,S}, {G,S}, {O,G,S}
+------------------------------------------------------------------------
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: SKW hypercube n=8, t=19
+Property: Change in the expectation of the energy observable at the functional step evaluated from psi_19
+Representation: statevector; dimension: 2048
+Players: 3; fixed operations: 0
+Execution steps: 3; coalitions: 8
+Baseline: -1.420427511289
+RESULT: APPLICABLE
+REASON: Technical conditions, functional constraints, and all semantic contract invariants are satisfied.
+
+
+----------------------------------------------------------------------------
+SHAPLEY CONTRIBUTIONS
+----------------------------------------------------------------------------
+v(B) = -0.221999111475
+Σ phi_i = -0.221999111475
+Efficiency residual = 2.776e-17
+Efficiency: OK
+============================================================================
+QSMEF APPLICABILITY ASSISTANT
+============================================================================
+Case: Modified SKW - fixed psi_19 0.70π
+Property: Change in the expectation of the energy observable at the functional step evaluated from psi_19
+Representation: statevector; dimension: 2048
+Players: 3; fixed operations: 0
+Execution steps: 3; coalitions: 8
+Baseline: -1.420427511289
+RESULT: APPLICABLE
+REASON: Technical conditions, functional constraints, and all semantic contract invariants are satisfied.
+
+
+----------------------------------------------------------------------------
+SHAPLEY CONTRIBUTIONS
+----------------------------------------------------------------------------
+v(B) = -0.169842552906
+Σ phi_i = -0.169842552906
+Efficiency residual = 2.776e-17
+Efficiency: OK

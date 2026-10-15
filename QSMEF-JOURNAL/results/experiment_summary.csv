@@ -1,0 +1,9 @@
+Experiment,Selection,Players,Coalitions,Verdict,Reason,Shapley
+QAOA-MaxCut C6,DECLARED GRANULARITY,4,16,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied.",C1: -1.583908 | B1: -0.416092 | C2: -0.416092 | B2: -1.583908
+TwoLocal-H2,DECLARED GRANULARITY,5,32,NOT APPLICABLE UNDER THE DECLARED SCOPE,"Functional constraints are not satisfied in 25 coalition(s). Therefore, the declared functional scope is not satisfied.",Not computed
+SKW hypercube,DECLARED GRANULARITY,3,8,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied.",O: -0.253055 | G: 0.015528 | S: 0.015528
+QPE-Shor,DECLARED GRANULARITY,7,128,NOT APPLICABLE UNDER THE DECLARED SCOPE,Semantic contract criteria do not hold for every coalition; the common functional interpretation required by the declared scope is therefore not preserved.,Not computed
+Graph Partitioning (Min Bisection),DECLARED GRANULARITY,2,4,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied.",C_fase: -0.519224 | M_XY: 0.472962
+SKW modified full evolution,fixed configuration,3,8,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied.",O: 0.134201175904 | G: -0.00630305657586 | S: -0.00630305657587
+SKW fixed-state comparison: original,fixed configuration,3,8,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied.",O: -0.253055276936 | G: 0.0155280827307 | S: 0.0155280827307
+SKW fixed-state comparison: modified_fixed_state,fixed configuration,3,8,APPLICABLE,"Technical conditions, functional constraints, and all semantic contract invariants are satisfied.",O: -0.200898718367 | G: 0.0155280827307 | S: 0.0155280827307
