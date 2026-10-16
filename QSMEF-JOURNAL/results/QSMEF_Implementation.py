@@ -1,8 +1,3 @@
-# QSMEF — Journal reproducibility release (2026-10-16)
-# QPE/Shor applicability: ideal eigenphase distinguishability under declared scope.
-# SKW article comparison: independently evolved reference and modified-oracle states.
-# See README.md for dependencies, interpretation and reproduction instructions.
-
 from __future__ import annotations
 
 # Standard library
