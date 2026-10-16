@@ -1,0 +1,10 @@
+maxcut: APPLICABLE
+h2: NOT APPLICABLE UNDER THE DECLARED SCOPE
+skw: APPLICABLE
+qpe: NOT APPLICABLE UNDER THE DECLARED SCOPE
+partitioning: APPLICABLE
+QPE: 128 valid states; 16 semantic passes; 112 semantic failures
+QAOA: Shapley values match journal (6 decimal places)
+SKW: reference, modified full evolution and oracle delta match journal
+Efficiency: verified for all applicable cases
+ALL CHECKS PASSED
