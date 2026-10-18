@@ -31,17 +31,17 @@ Two modified-oracle SKW comparisons are distinguished: **full evolution**, in wh
 
 The executable artifacts are in `QSMEF-JOURNAL/resultados/`:
 
-| File | Purpose |
-| --- | --- |
-| `QSMEF_Implementation.py` | Framework implementation and experiment entry point |
-| `test_qsmef_regression.py` | Nine automated regression tests |
-| `qsmef_checks.json` | Previously recorded numerical reference values and expected verdicts |
-| `requirements_qsmef.txt` | Python dependencies for the reproducibility package |
-| `ejecutar_pruebas.bat` | Windows test runner |
-| `README_pruebas_QSMEF.txt` | Additional test execution instructions |
-| `qsmef_regression_run.log` | Recorded successful test execution |
-| `experiment_summary.csv` | Summary of experiments and applicability outcomes |
-| `verification_results.txt` | Summary of previously recorded verification outcomes |
+| File                      | Purpose                                                              |
+| ---                       | ---                                                                  |
+| `QSMEF_Implementation.py` | Framework implementation and experiment entry point                  |
+| `test_qsmef_regression.py`| Nine automated regression tests                                      |
+| `qsmef_checks.json`       | Previously recorded numerical reference values and expected verdicts |
+| `requirements_qsmef.txt`  | Python dependencies for the reproducibility package                  |
+| `ejecutar_pruebas.bat`    | Windows test runner                                                  |
+| `README_pruebas_QSMEF.txt`| Additional test execution instructions                               |
+| `qsmef_regression_run.log`| Recorded successful test execution                                   |
+| `experiment_summary.csv`  | Summary of experiments and applicability outcomes                    |
+| `verification_results.txt`| Summary of previously recorded verification outcomes                 |
 
 The repository also contains a `revisión_literatura/` directory with materials associated with the literature review. These are separate from the computational regression suite.
 
