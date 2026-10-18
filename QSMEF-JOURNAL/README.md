@@ -1,103 +1,87 @@
-# QSMEF — Computational Implementation and Reproducibility
+# QSMEF — Functional Contribution Analysis in Quantum Circuits
 
-**QSMEF** (*Quantum Software Engineering Module Evaluation Framework*) is a framework for evaluating functional contributions of blocks in quantum circuits through coalition-based observable measurements and Shapley values, subject to explicitly declared applicability conditions. This repository accompanies the QSMEF journal manuscript and provides its computational implementation, experimental records, and regression tests.
+**QSMEF** (*Quantum Software Engineering Module Evaluation Framework*) is a framework for evaluating the functional contributions of blocks in quantum circuits. It uses coalition-based observable measurements and Shapley values, subject to explicitly declared technical, functional, and semantic applicability conditions.
 
-## Scope and interpretation
+This repository accompanies the QSMEF journal manuscript and makes available the computational implementation, case-study artifacts, regression tests, and supporting literature-review materials.
 
-QSMEF represents a case through `QSMEFCase`: an initial state, ordered operations, functional blocks (players), an observable, functional constraints, and an executable semantic contract. Omitted functional blocks are neutralized by identity while the prescribed operation order is retained. Coalition values are defined relative to the empty coalition, `v(C) = M_H(C) - M_H(∅)`, and Shapley values are calculated when the case satisfies the declared applicability checks.
+## Research objective
 
-The validator distinguishes four outcomes:
+Evaluating a quantum circuit as a whole does not directly explain how its functional blocks contribute to a selected observable property. QSMEF addresses this attribution question by treating blocks as players in a cooperative game, evaluating configurations in which omitted blocks are neutralized by identity, and calculating Shapley values **when the declared applicability conditions are met**.
+
+The framework distinguishes four validation outcomes:
 
 - `APPLICABLE`
 - `NOT APPLICABLE UNDER THE DECLARED SCOPE`
 - `SEMANTIC CONTRACT REQUIRED`
 - `SPECIFICATION ERROR`
 
-An `APPLICABLE` verdict establishes that the implemented checks and declared criteria were satisfied for the specified configuration. It does **not** independently certify complete semantic comparability. A negative verdict under the declared scope does not establish universal non-applicability. Some technical properties of function-supplied operations may rely on explicit construction assumptions rather than exhaustive matrix verification.
+**Interpretation:** An `APPLICABLE` verdict means that the implemented checks and researcher-declared criteria are satisfied for the specified configuration. It is not an independent proof of complete functional or semantic comparability. Negative results under a declared scope should not be generalized to all configurations.
 
-The implementation also provides a granularity recommendation assistant based on declared objectives and computational constraints; its recommendations are heuristic, not globally optimality-certified.
+## Repository contents
 
-## Case studies
+```text
+QSMEF-Revista-2026/
+├── README.md                         # Repository overview (this file)
+├── QSMEF-JOURNAL/
+│   ├── README.md                     # Computational documentation and instructions
+│   └── resultados/
+│       ├── QSMEF_Implementation.py
+│       ├── test_qsmef_regression.py
+│       ├── qsmef_checks.json
+│       ├── requirements_qsmef.txt
+│       ├── ejecutar_pruebas.bat
+│       ├── README_pruebas_QSMEF.txt
+│       ├── qsmef_regression_run.log
+│       ├── experiment_summary.csv
+│       └── verification_results.txt
+└── revisión_literatura/
+    └── datos/
+        ├── retrieved_studies.csv
+        ├── excluded_studies.csv
+        └── selected_studies_analysis.xlsm
+```
+
+The `QSMEF-JOURNAL/` directory contains the computational materials associated with the manuscript. The `revisión_literatura/` directory contains supporting bibliographic datasets and analysis files; it is separate from the computational regression suite.
+
+For methodological details, requirements, experimental interpretation, and test instructions, see the **[computational README](QSMEF-JOURNAL/README.md)**.
+
+## Included computational case studies
 
 1. **QAOA–MaxCut:** cycle graph C6, depth `p = 2`.
-2. **TwoLocal–H₂:** four-qubit Jordan–Wigner representation and a two-electron-sector restriction.
-3. **SKW quantum walk:** search on a hypercube with oracle, coin, and shift blocks.
-4. **QPE–Shor:** phase estimation associated with modular period finding; applicability is evaluated under a declared semantic criterion.
+2. **TwoLocal–H₂:** four-qubit Jordan–Wigner representation, with a two-electron-sector restriction.
+3. **SKW quantum walk:** hypercube search, with oracle, coin, and shift blocks.
+4. **QPE–Shor:** quantum phase estimation associated with modular period finding.
 5. **Graph partitioning / minimum bisection:** fixed Hamming-weight sector and XY mixer.
 
-Two modified-oracle SKW comparisons are distinguished: **full evolution**, in which the oracle modification affects state preparation, and **fixed-state comparison**, in which the oracle interventions share the same reference state. These experiments address different questions and their Shapley attributions must not be conflated.
+The SKW experiments also include two distinct modified-oracle comparisons: a **full-evolution comparison** and an auxiliary **fixed-state comparison**. Their results should not be interpreted interchangeably.
 
-## Files
+## Quick start
 
-The executable artifacts are in `QSMEF-JOURNAL/resultados/`:
-
-| File                      | Purpose                                                              |
-| ---                       | ---                                                                  |
-| `QSMEF_Implementation.py` | Framework implementation and experiment entry point                  |
-| `test_qsmef_regression.py`| Nine automated regression tests                                      |
-| `qsmef_checks.json`       | Previously recorded numerical reference values and expected verdicts |
-| `requirements_qsmef.txt`  | Python dependencies for the reproducibility package                  |
-| `ejecutar_pruebas.bat`    | Windows test runner                                                  |
-| `README_pruebas_QSMEF.txt`| Additional test execution instructions                               |
-| `qsmef_regression_run.log`| Recorded successful test execution                                   |
-| `experiment_summary.csv`  | Summary of experiments and applicability outcomes                    |
-| `verification_results.txt`| Summary of previously recorded verification outcomes                 |
-
-The repository also contains a `revisión_literatura/` directory with materials associated with the literature review. These are separate from the computational regression suite.
-
-## Installation
-
-Install Python and the dependencies listed in `requirements_qsmef.txt`. From the `QSMEF-JOURNAL/resultados/` directory:
+Install Python and open a terminal in `QSMEF-JOURNAL/resultados/`:
 
 ```bash
 python -m pip install -r requirements_qsmef.txt
-```
-
-A virtual environment is recommended for a clean installation. Exact numerical results may vary slightly across operating systems, Python/library versions, and numerical optimization settings.
-
-## Run the experiments
-
-From `QSMEF-JOURNAL/resultados/`:
-
-```bash
 python QSMEF_Implementation.py
 ```
 
-To save console output:
-
-```bash
-python QSMEF_Implementation.py > qsmef_run.log 2>&1
-```
-
-The main script includes orchestration of the journal case studies and SKW oracle comparisons. Some calculations, including numerical optimization, may take longer depending on the machine.
-
-## Run the regression tests
-
-From `QSMEF-JOURNAL/resultados/`:
+Run the nine regression tests from the same directory:
 
 ```bash
 python -m unittest -v test_qsmef_regression.py
 ```
 
-On Windows, alternatively double-click `ejecutar_pruebas.bat` **after extracting or cloning the repository**. Keep the implementation, test script, JSON reference, and dependency file together in the same directory.
+On Windows, `ejecutar_pruebas.bat` provides an alternative way to launch the tests after cloning or extracting the repository.
 
-The regression suite contains **nine tests**, covering the five core case studies, the full-evolution and controlled fixed-state SKW comparisons, a rejected unsupported QPE configuration, and a MaxCut granularity check. It checks applicability verdicts, coalition counts, numerical Shapley references, and Shapley efficiency where applicable. For the modified full-evolution SKW experiment, the suite additionally checks approximately `φ_O = 0.134201` and `Δφ_O = 0.387256` (absolute tolerance `2e-5`).
+The JSON reference values and recorded logs support computational traceability. Passing the regression tests checks consistency with previously recorded outputs; it does **not** constitute independent experimental or semantic validation.
 
-The reference JSON is a previously recorded computational baseline, **not an external independent validation**. A successful test run supports computational consistency and reproducibility under the tested configurations; it does not independently prove all methodological or semantic assumptions.
+## Reproducibility and limitations
 
-**Filename consistency:** `test_qsmef_regression.py` must refer to `QSMEF_Implementation.py` and `qsmef_checks.json`, matching the filenames in this repository. These two import/reference lines should be verified after downloading the published release.
+Attributions are specific to the circuit configuration, initial state, observable, functional decomposition, neutralization rule, and declared applicability criteria. Executable semantic contracts test formalized conditions chosen by the researcher; they do not establish that every possible interpretation of functional comparability has been verified. Numerical results may vary slightly with software versions and numerical optimization settings.
 
-## Scientific and methodological boundaries
+For further details, consult [QSMEF-JOURNAL/README.md](QSMEF-JOURNAL/README.md).
 
-- Functional contributions depend on the selected circuit configuration, observable, block granularity, and baseline.
-- Identity neutralization preserves the specified operation schedule but does not, by itself, establish functional comparability.
-- Executable semantic criteria are declared by the researcher and checked by the validator; passing them does not constitute an independent proof that the criteria are sufficient for every interpretation.
-- For QPE/Shor, the negative result concerns the declared criterion and configuration, not universal non-applicability or a general impossibility of phase estimation.
-- The granularity assistant offers heuristic suggestions rather than certified globally optimal decompositions.
-- Numerical differences may arise from floating-point precision and optimization behavior.
+## Publication and citation
 
-## Citation and archival version
+This repository supports the QSMEF journal manuscript. The bibliographic reference for the final article and the **version-specific Zenodo DOI** will be added once the corresponding publication and software archive are finalized.
 
-For scientific use, cite the **specific Zenodo release DOI** corresponding to the exact GitHub version used for the reported results. Do not substitute a DOI from an earlier release without checking that its archived source and test artifacts match the manuscript.
-
-The software and records are intended to support transparent inspection and reproducibility of the published QSMEF experiments.
+When citing the software, use the Zenodo DOI for the **specific archived release** used to obtain the reported results. Do not assume that a DOI from an earlier version identifies the files in the current repository.
